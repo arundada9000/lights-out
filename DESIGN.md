@@ -68,6 +68,13 @@ computed from the accent theme block.
 - `ReadingProgress` — fixed hairline scroll-progress bar on guide pages.
 - Guides: catalog list (numbered slot rows per rack), outline rail on xl, ascending
   "continue" plate for prev/next.
+- `PlayConsole` (/play) — the game is the console: standby gate overlay (mode +
+  grid segmented, "Arm Run"), LED telemetry (level / lights / moves / time), a
+  live solvable board that auto-advances after "Signal Clear", a session-end
+  plate for the two-minute speedrun, and a synthesized Soundscape dock (sfx
+  chimes, generative pad loop, rain / fireside beds) with zero sample assets.
+  Design DNA borrowed conceptually from lo-fi gaming rooms: single screen, start
+  gate, chill room controls.
 - `ThemeScript` (inline, pre-paint) + `ThemeSwitcher` (popover) + `SurfaceRack` share
   the same `applyThemeToDom` runtime; `data-theme`/`data-accent` on `<html>`.
 
