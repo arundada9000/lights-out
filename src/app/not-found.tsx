@@ -39,7 +39,7 @@ export default function NotFound() {
 
           <div className="flex flex-col items-center gap-3">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">
-              404 &middot; Page not found
+              404 - Page not found
             </p>
             <h1 className="text-3xl font-semibold tracking-tight text-label sm:text-4xl">
               Hmm, this light is out.

@@ -16,7 +16,7 @@ export default function ErrorPage({
     <section className="flex flex-1 items-center justify-center py-20 text-center">
       <div className="flex flex-col items-center gap-5">
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">
-          Error &middot; Something went wrong
+          Error - Something went wrong
         </p>
         <h1 className="text-3xl font-semibold tracking-tight text-label">
           The board short-circuited.

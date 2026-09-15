@@ -61,11 +61,11 @@ export default function GuidesIndexPage() {
               <li aria-current="page" className="text-label">Guides</li>
             </ol>
           </nav>
-          <PlateLabel>Manual &middot; {guides.length} entries</PlateLabel>
+          <PlateLabel>Manual - {guides.length} entries</PlateLabel>
           <SectionHeading
             align="left"
             title="Guides for every Lights Out player"
-            description="Fifteen in-depth guides covering the rules, modes, strategy, the mathematics, and the features behind Easy Lights Out."
+            description="Sixteen in-depth guides covering the rules, modes, strategy, the mathematics, and the features behind Easy Lights Out."
           />
         </Container>
       </div>

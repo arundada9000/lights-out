@@ -62,6 +62,10 @@ interface LinkListBlock {
   links: { label: string; href: string }[];
 }
 
+interface SolverBlock {
+  type: "solver";
+}
+
 export type ContentBlock =
   | ParagraphBlock
   | HeadingBlock
@@ -71,7 +75,8 @@ export type ContentBlock =
   | TableBlock
   | CodeBlock
   | BlockquoteBlock
-  | LinkListBlock;
+  | LinkListBlock
+  | SolverBlock;
 
 export interface GuideMeta {
   slug: string;
@@ -101,6 +106,7 @@ import {
   offlineAndPwa,
   keyboardAndAccessibility,
   themesAndAppearance,
+  howToSolveLightsOut,
 } from "./guide-content";
 
 export const guides: GuideMeta[] = [
@@ -113,6 +119,7 @@ export const guides: GuideMeta[] = [
   timedMode,
   zenMode,
   tipsAndStrategies,
+  howToSolveLightsOut,
   lightsOutAlgorithm,
   howPuzzlesAreMade,
   statsAndAchievements,

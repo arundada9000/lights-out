@@ -1,5 +1,9 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
-import { Power } from "lucide-react";
+import { Menu, Power, X } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import { site } from "@/lib/site";
 import { ThemeSwitcher } from "@/components/theme/ThemeSwitcher";
 import { Button } from "@/components/ui/Button";
@@ -38,6 +42,8 @@ function Emblem() {
 }
 
 export function SiteHeader() {
+  const [open, setOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 w-full">
       <div className="glass border-b border-separator/80">
@@ -46,6 +52,7 @@ export function SiteHeader() {
             href="/"
             className="group flex items-center gap-3 rounded-ios-sm focus-visible:ring-focused"
             aria-label={`${site.name} home`}
+            onClick={() => setOpen(false)}
           >
             <Emblem />
             <span className="flex flex-col leading-none">
@@ -71,14 +78,55 @@ export function SiteHeader() {
           <div className="flex items-center gap-2 sm:gap-3">
             <ThemeSwitcher />
             <Button asChild size="sm" className="glow-accent">
-              <Link href="/play">
+              <Link href="/play" onClick={() => setOpen(false)}>
                 <Power className="h-3.5 w-3.5" strokeWidth={2.4} strokeLinecap="square" />
                 Power On
               </Link>
             </Button>
+            <button
+              type="button"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              aria-controls="mobile-nav"
+              onClick={() => setOpen((v) => !v)}
+              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-separator bg-surface-raised text-label-secondary transition-all duration-150 ease-ios hover:text-label active:scale-90 focus-visible:ring-focused md:hidden"
+            >
+              {open ? (
+                <X className="h-[18px] w-[18px]" strokeWidth={2.2} aria-hidden />
+              ) : (
+                <Menu className="h-[18px] w-[18px]" strokeWidth={2.2} aria-hidden />
+              )}
+            </button>
           </div>
         </Container>
       </div>
+
+      <AnimatePresence>
+        {open ? (
+          <motion.nav
+            id="mobile-nav"
+            aria-label="Primary"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ type: "spring", stiffness: 360, damping: 32 }}
+            className="overflow-hidden border-b border-separator/80 bg-surface-raised shadow-card md:hidden"
+          >
+            <div className="flex flex-col gap-1 px-4 py-3">
+              {links.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="cursor-pointer rounded-ios-md px-3.5 py-3 text-[15px] font-medium text-label transition-colors duration-200 ease-ios hover:bg-fill focus-visible:ring-focused"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </motion.nav>
+        ) : null}
+      </AnimatePresence>
     </header>
   );
 }

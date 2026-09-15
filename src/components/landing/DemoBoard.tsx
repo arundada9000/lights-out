@@ -148,7 +148,7 @@ export function DemoBoard() {
         <div className="flex flex-col">
           <span className="etched text-board-cap">Easy Lights Out</span>
           <span className="mt-1 text-[10px] font-medium uppercase tracking-[0.22em] text-board-cap/50">
-            5 &times; 5 logic grid
+            5 x 5 logic grid
           </span>
         </div>
         <div className="flex items-center gap-2.5">
@@ -183,8 +183,9 @@ export function DemoBoard() {
                 onClick={() => handleTap(r, c)}
                 aria-label={`Row ${r + 1} column ${c + 1}, ${cell ? "on" : "off"}. Tap to toggle.`}
                 disabled={won}
-                className="bulb h-11 w-11 rounded-[11px] sm:h-[54px] sm:w-[54px] sm:rounded-[13px]"
+                className="bulb h-11 w-11 rounded-[22%] sm:h-[54px] sm:w-[54px]"
               >
+                <span className="lamp" aria-hidden />
                 {hasWave ? <span className="bulb-wave" aria-hidden /> : null}
               </button>
             );

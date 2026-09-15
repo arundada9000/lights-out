@@ -25,6 +25,9 @@ export const site = {
   },
   social: {
     github: "https://github.com/arundada9000",
+    twitter: "https://x.com/arundada9000",
+    linkedin: "https://www.linkedin.com/in/arundada9000",
+    instagram: "https://www.instagram.com/arundada9000",
   },
 } as const;
 

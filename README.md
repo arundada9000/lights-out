@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Easy Lights Out
 
-## Getting Started
+A beautifully crafted, offline-ready Lights Out puzzle built with Next.js and Tailwind CSS. Tap a cell to flip it and its neighbours, then solve every board in as few moves as possible.
 
-First, run the development server:
+## Features
+
+- Six modes: Classic, Pattern, Daily, Minimum Moves, Timed and Zen
+- Cross-platform hint engine, competitive statistics, and streak tracking
+- Custom command palette, context menus, toasts, and brand cursor
+- Progressive Web App (installable, offline-ready)
+- Eight data-theme surfaces with twelve accent colours
+
+## Tech stack
+
+- Next.js 16 (App Router, Turbopack)
+- React 19
+- Tailwind CSS v4
+- Zustand (state)
+- Framer Motion (motion/react)
+- Vitest (unit tests)
+- TypeScript (strict)
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command | Description |
+|---|---|
+| `pnpm dev` | Development server |
+| `pnpm build` | Production build |
+| `pnpm start` | Serve production build |
+| `pnpm test` | Run Vitest unit tests |
+| `pnpm exec tsc --noEmit` | Type check |
+| `pnpm exec eslint .` | Lint |
 
-## Learn More
+## Project structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/          Pages and layouts
+  components/   UI and game components
+  engine/       Puzzle generation, solver, modes, rules
+  game/         Zustand stores and pure game logic
+  lib/          Guides, SEO, time, site config
+public/         Icons and service worker
+rules/          Internal planning docs (gitignored)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Proprietary. See [LICENSE](LICENSE) for details.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Author
+
+Arun Neupane - [arunneupane.vercel.app](https://arunneupane.vercel.app)

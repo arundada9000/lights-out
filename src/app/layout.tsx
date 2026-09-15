@@ -2,8 +2,11 @@ import type { Metadata, Viewport } from "next";
 import { site } from "@/lib/site";
 import { homeMetadata } from "@/lib/seo";
 import { ThemeScript } from "@/components/theme/ThemeScript";
-import { SiteHeader } from "@/components/layout/SiteHeader";
-import { SiteFooter } from "@/components/layout/SiteFooter";
+import { AppShell } from "@/components/layout/AppShell";
+import { Pwa } from "@/components/pwa/Pwa";
+import { CommandPalette } from "@/components/ui/CommandPalette";
+import { Toasts } from "@/components/ui/Toasts";
+import { CustomCursor } from "@/components/ui/CustomCursor";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -62,9 +65,13 @@ export default function RootLayout({
         discipline, bumper transitions via surface cross-fade, fixed-slot readouts).
         FINISH: unreviewed and undocumented is unfinished; this build ends with the finish
         review, the verdict, DESIGN.md, and every shipping raster carrying its provenance. */}
-        <SiteHeader />
-        <main className="flex-1">{children}</main>
-        <SiteFooter />
+        <AppShell>
+        {children}
+      </AppShell>
+        <Pwa />
+        <CommandPalette />
+        <Toasts />
+        <CustomCursor />
       </body>
     </html>
   );

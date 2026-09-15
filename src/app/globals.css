@@ -95,7 +95,7 @@
    the iOS-HIG semantic token set. Accent is a separate axis.
    ============================================================ */
 
-/* ---------- PAPER · iOS System Light (default) ---------- */
+/* ---------- PAPER | iOS System Light (default) ---------- */
 :root,
 [data-theme="paper"] {
   color-scheme: light;
@@ -141,7 +141,7 @@
   --board-cap: rgba(255, 255, 255, 0.42);
 }
 
-/* ---------- MIST · Cool light ---------- */
+/* ---------- MIST | Cool light ---------- */
 [data-theme="mist"] {
   color-scheme: light;
   --background: #eef2f6;
@@ -186,7 +186,7 @@
   --board-cap: rgba(255, 255, 255, 0.38);
 }
 
-/* ---------- SEPIA · Warm eye comfort ---------- */
+/* ---------- SEPIA | Warm eye comfort ---------- */
 [data-theme="sepia"] {
   color-scheme: light;
   --background: #eae0ce;
@@ -231,7 +231,7 @@
   --board-cap: rgba(255, 235, 205, 0.4);
 }
 
-/* ---------- CONTRAST · High accessibility ---------- */
+/* ---------- CONTRAST | High accessibility ---------- */
 [data-theme="contrast"] {
   color-scheme: light;
   --background: #ffffff;
@@ -276,7 +276,7 @@
   --board-cap: rgba(255, 255, 255, 0.55);
 }
 
-/* ---------- SLATE · iOS System Dark (OLED black) ---------- */
+/* ---------- SLATE | iOS System Dark (OLED black) ---------- */
 [data-theme="slate"] {
   color-scheme: dark;
   --background: #000000;
@@ -321,7 +321,7 @@
   --board-cap: rgba(255, 255, 255, 0.38);
 }
 
-/* ---------- MIDNIGHT · Deep OLED black ---------- */
+/* ---------- MIDNIGHT | Deep OLED black ---------- */
 [data-theme="midnight"] {
   color-scheme: dark;
   --background: #000000;
@@ -366,7 +366,7 @@
   --board-cap: rgba(255, 255, 255, 0.34);
 }
 
-/* ---------- OCEAN · Deep blue dark ---------- */
+/* ---------- OCEAN | Deep blue dark ---------- */
 [data-theme="ocean"] {
   color-scheme: dark;
   --background: #070d18;
@@ -411,7 +411,7 @@
   --board-cap: rgba(180, 210, 235, 0.4);
 }
 
-/* ---------- GRAPE · Deep purple dark ---------- */
+/* ---------- GRAPE | Deep purple dark ---------- */
 [data-theme="grape"] {
   color-scheme: dark;
   --background: #0b0814;
@@ -560,6 +560,52 @@ p {
   background-clip: content-box;
 }
 
+/* ---------- Brand cursor (desktop fine pointers only) ---------- */
+body.brand-cursor,
+body.brand-cursor :not(input):not(textarea):not(select):not([contenteditable]) {
+  cursor: none;
+}
+
+.cursor-dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--accent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 70%, transparent);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: opacity 120ms ease, transform 120ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cursor-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  border: 1.5px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    width 160ms cubic-bezier(0.22, 1, 0.36, 1),
+    height 160ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 160ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 160ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 120ms ease;
+}
+
+.cursor-ring[data-active="true"] {
+  width: 44px;
+  height: 44px;
+  border-color: color-mix(in srgb, var(--accent) 90%, transparent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
 /* ---------- Motion library ---------- */
 
 @keyframes signal-patrol {
@@ -575,10 +621,9 @@ p {
   50% { opacity: 1; }
 }
 
-@keyframes bulb-on {
-  0% { transform: scale(0.86); filter: brightness(2.4) blur(1px); }
-  60% { transform: scale(1.04); filter: brightness(1.35) blur(0); }
-  100% { transform: scale(1); filter: brightness(1); }
+@keyframes lamp-ignite {
+  0% { transform: scale(0.88); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 @keyframes bulb-wave {
@@ -729,18 +774,27 @@ p {
   z-index: 1;
 }
 
-/* LED cells */
+/* LED cells (recessed lamp-in-socket style) */
 .bulb {
   position: relative;
-  border-radius: 12px;
+  border-radius: 22%;
+  display: grid;
+  place-items: center;
   overflow: visible;
   isolation: isolate;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  background:
+    linear-gradient(170deg, color-mix(in srgb, var(--board-bg) 92%, #ffffff 8%) 0%, var(--board-bg) 70%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.45),
+    0 1px 2px rgba(0, 0, 0, 0.35),
+    0 6px 14px rgba(0, 0, 0, 0.28);
   transition: transform 0.05s ease, box-shadow 0.24s ease;
 }
 .bulb:active {
-  transform: scale(0.93);
+  transform: scale(0.92);
 }
 .bulb:focus-visible {
   box-shadow: var(--ring-focused), 0 0 0 1px var(--board-bg);
@@ -748,43 +802,91 @@ p {
 }
 .bulb:disabled {
   cursor: default;
+  opacity: 0.85;
 }
 
-/* The lens cradle */
+/* Recessed socket cavity */
 .bulb::before {
   content: "";
   position: absolute;
-  inset: 3px;
-  border-radius: 9px;
+  inset: 14%;
+  border-radius: 26%;
   background:
-    radial-gradient(120% 60% at 28% 18%, rgba(255, 255, 255, 0.16), transparent 46%),
+    radial-gradient(120% 60% at 28% 18%, rgba(255, 255, 255, 0.08), transparent 44%),
     var(--board-well);
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.7), inset 0 -1px 1px rgba(255, 255, 255, 0.05);
+  box-shadow:
+    inset 0 2px 5px rgba(0, 0, 0, 0.8),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.04);
   transition: box-shadow 0.24s ease, background 0.24s ease;
   z-index: -1;
 }
 
-/* Lit state: wave of accent light floods the lens */
-.bulb[data-on="true"]::before {
-  background:
-    radial-gradient(64% 50% at 32% 26%, #ffffff 0%, color-mix(in srgb, var(--accent) 72%, #ffffff 28%) 18%, var(--accent) 58%, color-mix(in srgb, var(--accent) 78%, #000000 22%) 100%);
-  box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent),
-    0 0 13px color-mix(in srgb, var(--accent) 72%, transparent),
-    0 0 30px color-mix(in srgb, var(--accent) 40%, transparent),
-    0 0 58px color-mix(in srgb, var(--accent) 24%, transparent);
+/* Circular lens sitting inside the socket */
+.lamp {
+  position: relative;
+  width: 58%;
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  z-index: 1;
+  transition: opacity 0.28s var(--ease-signal), transform 0.18s var(--ease-signal);
 }
 
-.bulb[data-on="true"] {
-  animation: bulb-on 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+/* Lens dome (OFF) */
+.lamp::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(120% 120% at 32% 26%, color-mix(in srgb, var(--board-cap) 48%, transparent), transparent 42%),
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--board-bg) 65%, #000000 35%), var(--board-well));
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.11),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.5),
+    0 1px 3px rgba(0, 0, 0, 0.55);
+  transition: box-shadow 0.28s ease, background 0.28s ease;
+}
+
+/* Soft halo around the lamp (opacity-driven so no blur animation) */
+.lamp::after {
+  content: "";
+  position: absolute;
+  inset: -28%;
+  border-radius: inherit;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 38%, transparent), transparent 62%);
+  opacity: 0;
+  transition: opacity 0.28s var(--ease-signal);
+  pointer-events: none;
+}
+
+/* Lit state */
+.bulb[data-on="true"] .lamp::before {
+  background:
+    radial-gradient(120% 120% at 32% 26%, #ffffff 0%, color-mix(in srgb, var(--accent) 88%, #ffffff 12%) 28%, var(--accent) 60%, color-mix(in srgb, var(--accent) 68%, #000000 32%) 100%);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--accent) 65%, transparent),
+    0 0 6px color-mix(in srgb, var(--accent) 55%, transparent),
+    0 0 14px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.bulb[data-on="true"] .lamp {
+  animation: lamp-ignite 0.32s var(--ease-ios) both;
+}
+.bulb[data-on="true"] .lamp::after {
+  opacity: 1;
+}
+
+/* Hint ring (draws around the lamp when the solver suggests this cell) */
+.bulb[data-hint="true"] .lamp::after {
+  opacity: 1;
+  background: radial-gradient(circle, color-mix(in srgb, var(--warning) 34%, transparent), transparent 64%);
 }
 
 /* Signal wave ring emitted on press */
 .bulb-wave {
   position: absolute;
-  inset: 3px;
-  border-radius: 10px;
-  border: 2px solid color-mix(in srgb, var(--accent) 60%, transparent);
+  inset: 8%;
+  border-radius: 22%;
+  border: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
   pointer-events: none;
   animation: bulb-wave 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   z-index: 1;
@@ -843,7 +945,49 @@ p {
   .instrument-beam, .aura, .led.dim, .scanline {
     animation: none !important;
   }
-  .bulb[data-on="true"] {
+  .bulb[data-on="true"] .lamp {
     animation: none !important;
   }
+}
+
+/* Range slider used across sheets */
+.slider-input {
+  appearance: none;
+  width: 100%;
+  height: 28px;
+  background: transparent;
+  cursor: pointer;
+}
+.slider-input::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, var(--accent) var(--slider-fill, 60%), var(--fill-secondary) var(--slider-fill, 60%));
+}
+.slider-input::-webkit-slider-thumb {
+  appearance: none;
+  margin-top: -7px;
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 1px solid color-mix(in srgb, var(--label-tertiary) 40%, transparent);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+.slider-input::-moz-range-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--fill-secondary);
+}
+.slider-input::-moz-range-progress {
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--accent);
+}
+.slider-input::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 9999px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
 }

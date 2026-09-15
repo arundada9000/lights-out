@@ -12,6 +12,7 @@ export {
   lightsOutAlgorithm,
   howPuzzlesAreMade,
 } from "./engine";
+export { howToSolveLightsOut } from "./solve";
 export {
   statsAndAchievements,
   offlineAndPwa,

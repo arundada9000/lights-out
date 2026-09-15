@@ -158,7 +158,7 @@ export default function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
-      {/* ===== HERO · the mechanism is the interface ===== */}
+      {/* ===== HERO / the mechanism is the interface ===== */}
       <section className="relative overflow-hidden bg-background pb-20 pt-10 sm:pb-28 sm:pt-14">
         <div className="aura -left-40 -top-32 h-[34rem] w-[34rem] opacity-70" aria-hidden />
         <div className="aura -right-32 bottom-0 h-[30rem] w-[30rem] opacity-50" style={{ animationDelay: "-6s" }} aria-hidden />
@@ -170,7 +170,7 @@ export default function HomePage() {
             <div className="flex flex-col gap-8">
               <div className="flex items-center gap-2.5">
                 <span className="led" aria-hidden />
-                <span className="etched text-[10px]">Ser. ELO&middot;01 &mdash; Logic instrument &middot; 5 &times; 5</span>
+                <span className="etched text-[10px]">Ser. ELO 01 - Logic instrument 5 x 5</span>
               </div>
 
               <h1 className="max-w-xl text-[2.75rem] font-semibold leading-[1.04] tracking-tight text-label sm:text-6xl lg:text-[4.4rem]">
@@ -200,7 +200,7 @@ export default function HomePage() {
               </div>
 
               <div className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-1">
-                <span className="etched text-[10px]">3&times;3 &rarr; 8&times;8 boards</span>
+                <span className="etched text-[10px]">3 x 3 to 8 x 8 boards</span>
                 <span className="led dim" aria-hidden />
                 <span className="etched text-[10px]">6 modes</span>
                 <span className="led dim" aria-hidden />
@@ -213,7 +213,7 @@ export default function HomePage() {
               <div className="mx-auto max-w-[30rem]">
                 <DemoBoard />
                 <p className="etched mt-4 text-center text-[9px]">
-                  This board is live &middot; tap any cell
+                  This board is live - tap any cell
                 </p>
               </div>
             </div>
@@ -221,7 +221,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* ===== THE SIGNAL · the one rule ===== */}
+      {/* ===== THE SIGNAL / the one rule ===== */}
       <Section id="signal" className="bg-group">
         <SectionHeading
           title="One rule, three beats"
@@ -246,7 +246,7 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* ===== MODES · six instruments ===== */}
+      {/* ===== MODES / six instruments ===== */}
       <Section id="modes">
         <SectionHeading
           title="Six modes on one engine"
@@ -287,7 +287,7 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* ===== OWN THE INSTRUMENT · configurable everything ===== */}
+      {/* ===== OWN THE INSTRUMENT / configurable everything ===== */}
       <section id="configure" className="bg-group py-16 sm:py-24">
         <Container size="wide">
           <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
@@ -324,7 +324,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* ===== MANUAL · guides ===== */}
+      {/* ===== MANUAL / guides ===== */}
       <Section id="guides">
         <SectionHeading
           title="Fifteen guides, for the curious"
@@ -380,7 +380,7 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* ===== FINAL CTA · closing plate ===== */}
+      {/* ===== FINAL CTA / closing plate ===== */}
       <Section id="power-on">
         <div className="relative overflow-hidden rounded-ios-2xl border border-separator bg-surface-raised px-8 py-16 text-center shadow-raised sm:px-16 sm:py-24">
           <span className="scanline" aria-hidden />
@@ -388,7 +388,7 @@ export default function HomePage() {
           <div className="relative flex flex-col items-center gap-7">
             <div className="flex items-center gap-2.5">
               <span className="led dim" aria-hidden />
-              <span className="etched text-[10px]">Ready &middot; free &middot; offline</span>
+              <span className="etched text-[10px]">Ready - free - offline</span>
             </div>
             <h2 className="max-w-xl text-3xl font-semibold leading-tight tracking-tight text-label sm:text-5xl">
               Ready to turn out the lights?

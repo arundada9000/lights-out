@@ -33,6 +33,13 @@ const footerLinks = [
   },
 ];
 
+const socials = [
+  { name: "GitHub", href: site.social.github, mark: "GH" },
+  { name: "X", href: site.social.twitter, mark: "X" },
+  { name: "LinkedIn", href: site.social.linkedin, mark: "in" },
+  { name: "Instagram", href: site.social.instagram, mark: "IG" },
+];
+
 export function SiteFooter() {
   return (
     <footer className="relative mt-auto overflow-hidden border-t border-separator bg-group">
@@ -69,7 +76,7 @@ export function SiteFooter() {
                 <span className="text-[15px] font-semibold tracking-tight text-label">
                   Easy Lights Out
                 </span>
-                <span className="etched mt-0.5 text-[9px]">Logic instrument &middot; PWA</span>
+                <span className="etched mt-0.5 text-[9px]">Logic instrument - PWA</span>
               </span>
             </Link>
 
@@ -78,12 +85,23 @@ export function SiteFooter() {
               configurable to the last LED.
             </p>
 
-            {/* Status readout */}
-            <div className="flex w-fit items-center gap-3 rounded-full border border-separator/80 bg-surface-raised px-4 py-2.5 shadow-card">
-              <span className="led" aria-hidden />
-              <span aria-hidden className="led dim" />
-              <span className="h-3 w-px bg-separator" aria-hidden />
-              <span className="etched text-[9px]">Instrument online &middot; v0.1.0</span>
+            {/* Social signal */}
+            <div className="flex flex-col gap-2.5">
+              <span className="etched text-[9px]">Social signal</span>
+              <div className="flex items-center gap-2">
+                {socials.map((s) => (
+                  <a
+                    key={s.name}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${s.name}, @${site.developer.handle}`}
+                    className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[10px] border border-separator bg-surface-raised font-mono text-[11px] font-bold text-label-tertiary shadow-card transition-all duration-200 ease-ios hover:-translate-y-0.5 hover:border-accent/50 hover:text-accent focus-visible:ring-focused"
+                  >
+                    <span aria-hidden>{s.mark}</span>
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -129,7 +147,7 @@ export function SiteFooter() {
             <span className="led dim" />
             <span className="led dim" />
             <span className="led" />
-            <span className="etched ml-1.5 text-[9px]">Free &middot; Offline-ready</span>
+            <span className="etched ml-1.5 text-[9px]">Free - Offline-ready</span>
           </div>
 
           <div className="flex items-center gap-4 text-xs text-label-tertiary">

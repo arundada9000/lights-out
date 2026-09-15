@@ -1,6 +1,7 @@
 import type { ContentBlock } from "@/lib/guides";
 import { Info, Lightbulb, TriangleAlert } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { LightsOutSolver } from "./LightsOutSolver";
 
 const toneStyles = {
   info: "border-blue/25 bg-blue/8 text-label",
@@ -219,6 +220,12 @@ export function GuideContent({ blocks }: { blocks: ContentBlock[] }) {
             return <Blockquote key={index} block={block} />;
           case "link-list":
             return <LinkListBlock key={index} block={block} />;
+          case "solver":
+            return (
+              <div key={index} className="my-8">
+                <LightsOutSolver />
+              </div>
+            );
           default:
             return null;
         }
