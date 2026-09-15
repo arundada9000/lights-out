@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# project rules (design docs stay local, not shared)
+/rules
+
+# local plans and scratch
+/plan.md
+/.scratch
+*.local
+*.log

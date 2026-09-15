@@ -1,26 +1,849 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ============================================================
+   Easy Lights Out - "Control Surface" design language
+   A machined, modular-synth world: anodized panels, hairline
+   grids, engraved micro-caps, LED cells that send visible signal
+   pulses when pressed. Multiple surface themes, all variable-driven.
+   ============================================================ */
 
 @theme inline {
+  /* Typography - SF Pro native stack (iOS identity) */
+  --font-sans: var(--font-sf-sans);
+  --font-serif: var(--font-sf-serif);
+  --font-mono: var(--font-sf-mono);
+
+  /* Semantic surfaces */
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-group: var(--group);
+  --color-group-raised: var(--group-raised);
+  --color-label: var(--label);
+  --color-label-secondary: var(--label-secondary);
+  --color-label-tertiary: var(--label-tertiary);
+  --color-separator: var(--separator);
+  --color-separator-opaque: var(--separator-opaque);
+  --color-fill: var(--fill);
+  --color-fill-secondary: var(--fill-secondary);
+  --color-fill-tertiary: var(--fill-tertiary);
+
+  /* Brand accent axis */
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-contrast: var(--accent-contrast);
+
+  /* Instrument (control-surface board) */
+  --color-board: var(--board-bg);
+  --color-board-well: var(--board-well);
+  --color-board-line: var(--board-line);
+  --color-board-cap: var(--board-cap);
+
+  /* Status */
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
+
+  /* iOS system palette (accent options + status) */
+  --color-blue: var(--ios-blue);
+  --color-green: var(--ios-green);
+  --color-indigo: var(--ios-indigo);
+  --color-orange: var(--ios-orange);
+  --color-pink: var(--ios-pink);
+  --color-purple: var(--ios-purple);
+  --color-red: var(--ios-red);
+  --color-teal: var(--ios-teal);
+  --color-yellow: var(--ios-yellow);
+  --color-gray: var(--ios-gray);
+
+  /* Radii - continuous-corner approximations */
+  --radius-ios-sm: 0.5rem;
+  --radius-ios-md: 12px;
+  --radius-ios-lg: 16px;
+  --radius-ios-xl: 20px;
+  --radius-ios-2xl: 26px;
+
+  /* Elevation */
+  --shadow-card: var(--shadow-1);
+  --shadow-raised: var(--shadow-2);
+  --shadow-modal: var(--shadow-3);
+
+  /* Motion */
+  --ease-ios: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-signal: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 140ms;
+  --duration-base: 240ms;
+  --duration-slow: 420ms;
+
+  /* Focus */
+  --ring-focused: 0 0 0 3px color-mix(in srgb, var(--accent) 38%, transparent);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ---------- Fonts (iOS native stack) ---------- */
+:root {
+  --font-sf-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-sf-serif: Georgia, "Times New Roman", serif;
+  --font-sf-mono: ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas,
+    "Liberation Mono", monospace;
+}
+
+/* ============================================================
+   THEMES - the eight surfaces
+   Palette derived from the reference loksewa project, mapped to
+   the iOS-HIG semantic token set. Accent is a separate axis.
+   ============================================================ */
+
+/* ---------- PAPER · iOS System Light (default) ---------- */
+:root,
+[data-theme="paper"] {
+  color-scheme: light;
+  --background: #f2f2f7;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --group: #f2f2f7;
+  --group-raised: #ffffff;
+  --label: #000000;
+  --label-secondary: #3c3c43;
+  --label-tertiary: #8e8e93;
+  --separator: rgba(60, 60, 67, 0.15);
+  --separator-opaque: rgba(60, 60, 67, 0.29);
+  --fill: rgba(120, 120, 128, 0.16);
+  --fill-secondary: rgba(120, 120, 128, 0.24);
+  --fill-tertiary: rgba(118, 118, 128, 0.1);
+  --accent: #d97706;
+  --accent-strong: #b06000;
+  --accent-soft: rgba(217, 119, 6, 0.12);
+  --accent-contrast: #ffffff;
+  --success: #248a3d;
+  --warning: #d97706;
+  --danger: #ff3b30;
+  --ios-blue: #007aff;
+  --ios-green: #34c759;
+  --ios-indigo: #5856d6;
+  --ios-orange: #ff9500;
+  --ios-pink: #ff2d55;
+  --ios-purple: #af52de;
+  --ios-red: #ff3b30;
+  --ios-teal: #30b0c7;
+  --ios-yellow: #ffcc00;
+  --ios-gray: #8e8e93;
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.04), 0 6px 20px rgba(0, 0, 0, 0.05);
+  --shadow-2: 0 2px 4px rgba(0, 0, 0, 0.05), 0 14px 34px rgba(0, 0, 0, 0.1);
+  --shadow-3: 0 0 0 1px rgba(0, 0, 0, 0.04), 0 24px 80px rgba(0, 0, 0, 0.2);
+  --glass-bg: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(60, 60, 67, 0.18);
+  --scrim: rgba(0, 0, 0, 0.35);
+  --board-bg: #26262b;
+  --board-well: #101013;
+  --board-line: rgba(255, 255, 255, 0.08);
+  --board-cap: rgba(255, 255, 255, 0.42);
+}
+
+/* ---------- MIST · Cool light ---------- */
+[data-theme="mist"] {
+  color-scheme: light;
+  --background: #eef2f6;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --group: #eef2f6;
+  --group-raised: #ffffff;
+  --label: #111827;
+  --label-secondary: #4b5563;
+  --label-tertiary: #9ca3af;
+  --separator: rgba(156, 163, 175, 0.22);
+  --separator-opaque: rgba(156, 163, 175, 0.4);
+  --fill: rgba(156, 163, 175, 0.2);
+  --fill-secondary: rgba(156, 163, 175, 0.28);
+  --fill-tertiary: rgba(156, 163, 175, 0.12);
+  --accent: #d97706;
+  --accent-strong: #b45309;
+  --accent-soft: rgba(217, 119, 6, 0.12);
+  --accent-contrast: #ffffff;
+  --success: #16a34a;
+  --warning: #d97706;
+  --danger: #dc2626;
+  --ios-blue: #0284c7;
+  --ios-green: #34c759;
+  --ios-indigo: #5856d6;
+  --ios-orange: #ff9500;
+  --ios-pink: #ff2d55;
+  --ios-purple: #af52de;
+  --ios-red: #ff3b30;
+  --ios-teal: #14b8a6;
+  --ios-yellow: #ca8a04;
+  --ios-gray: #9ca3af;
+  --shadow-1: 0 1px 2px rgba(17, 24, 39, 0.04), 0 6px 20px rgba(17, 24, 39, 0.05);
+  --shadow-2: 0 2px 4px rgba(17, 24, 39, 0.05), 0 14px 34px rgba(17, 24, 39, 0.1);
+  --shadow-3: 0 0 0 1px rgba(17, 24, 39, 0.04), 0 24px 80px rgba(17, 24, 39, 0.2);
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(156, 163, 175, 0.22);
+  --scrim: rgba(17, 24, 39, 0.38);
+  --board-bg: #23282e;
+  --board-well: #0d1013;
+  --board-line: rgba(255, 255, 255, 0.07);
+  --board-cap: rgba(255, 255, 255, 0.38);
+}
+
+/* ---------- SEPIA · Warm eye comfort ---------- */
+[data-theme="sepia"] {
+  color-scheme: light;
+  --background: #eae0ce;
+  --surface: #f5ecd9;
+  --surface-raised: #fbf3e2;
+  --group: #eae0ce;
+  --group-raised: #f5ecd9;
+  --label: #2c220e;
+  --label-secondary: #5c4b27;
+  --label-tertiary: #87744d;
+  --separator: rgba(92, 75, 39, 0.16);
+  --separator-opaque: rgba(92, 75, 39, 0.3);
+  --fill: rgba(92, 75, 39, 0.14);
+  --fill-secondary: rgba(92, 75, 39, 0.2);
+  --fill-tertiary: rgba(92, 75, 39, 0.08);
+  --accent: #b25e00;
+  --accent-strong: #8f4b00;
+  --accent-soft: rgba(178, 94, 0, 0.12);
+  --accent-contrast: #ffffff;
+  --success: #2e7d32;
+  --warning: #b25e00;
+  --danger: #c62828;
+  --ios-blue: #007aff;
+  --ios-green: #34c759;
+  --ios-indigo: #5856d6;
+  --ios-orange: #d86900;
+  --ios-pink: #b84a5f;
+  --ios-purple: #7d4c9e;
+  --ios-red: #c62828;
+  --ios-teal: #0f7d8c;
+  --ios-yellow: #b27b00;
+  --ios-gray: #87744d;
+  --shadow-1: 0 1px 2px rgba(44, 34, 14, 0.05), 0 6px 20px rgba(44, 34, 14, 0.07);
+  --shadow-2: 0 2px 4px rgba(44, 34, 14, 0.06), 0 14px 34px rgba(44, 34, 14, 0.12);
+  --shadow-3: 0 0 0 1px rgba(44, 34, 14, 0.05), 0 24px 80px rgba(44, 34, 14, 0.22);
+  --glass-bg: rgba(245, 236, 217, 0.82);
+  --glass-border: rgba(92, 75, 39, 0.16);
+  --scrim: rgba(44, 34, 14, 0.42);
+  --board-bg: #2a2114;
+  --board-well: #170f05;
+  --board-line: rgba(255, 235, 205, 0.09);
+  --board-cap: rgba(255, 235, 205, 0.4);
+}
+
+/* ---------- CONTRAST · High accessibility ---------- */
+[data-theme="contrast"] {
+  color-scheme: light;
+  --background: #ffffff;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --group: #eeeeee;
+  --group-raised: #ffffff;
+  --label: #000000;
+  --label-secondary: #1c1c1e;
+  --label-tertiary: #48484a;
+  --separator: #8e8e93;
+  --separator-opaque: #000000;
+  --fill: #c7c7cc;
+  --fill-secondary: #d1d1d6;
+  --fill-tertiary: #e5e5e5;
+  --accent: #9e4d00;
+  --accent-strong: #7a3a00;
+  --accent-soft: rgba(158, 77, 0, 0.15);
+  --accent-contrast: #ffffff;
+  --success: #007d2c;
+  --warning: #9e4d00;
+  --danger: #d70015;
+  --ios-blue: #0040dd;
+  --ios-green: #007d2c;
+  --ios-indigo: #3c2fcc;
+  --ios-orange: #9e4d00;
+  --ios-pink: #c4004f;
+  --ios-purple: #7b2fbe;
+  --ios-red: #d70015;
+  --ios-teal: #00647a;
+  --ios-yellow: #8e6500;
+  --ios-gray: #48484a;
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.08);
+  --shadow-2: 0 2px 4px rgba(0, 0, 0, 0.12), 0 14px 34px rgba(0, 0, 0, 0.14);
+  --shadow-3: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 24px 80px rgba(0, 0, 0, 0.25);
+  --glass-bg: rgba(255, 255, 255, 0.94);
+  --glass-border: #8e8e93;
+  --scrim: rgba(0, 0, 0, 0.55);
+  --board-bg: #1a1a1a;
+  --board-well: #000000;
+  --board-line: rgba(255, 255, 255, 0.14);
+  --board-cap: rgba(255, 255, 255, 0.55);
+}
+
+/* ---------- SLATE · iOS System Dark (OLED black) ---------- */
+[data-theme="slate"] {
+  color-scheme: dark;
+  --background: #000000;
+  --surface: #1c1c1e;
+  --surface-raised: #2c2c2e;
+  --group: #000000;
+  --group-raised: #1c1c1e;
+  --label: #ffffff;
+  --label-secondary: #ebebf5;
+  --label-tertiary: #8e8e93;
+  --separator: rgba(84, 84, 88, 0.36);
+  --separator-opaque: rgba(84, 84, 88, 0.6);
+  --fill: rgba(120, 120, 128, 0.28);
+  --fill-secondary: rgba(120, 120, 128, 0.24);
+  --fill-tertiary: rgba(118, 118, 128, 0.24);
+  --accent: #fbbf24;
+  --accent-strong: #fcd34d;
+  --accent-soft: rgba(251, 191, 36, 0.14);
+  --accent-contrast: #1c1917;
+  --success: #30d158;
+  --warning: #ff9f0a;
+  --danger: #ff453a;
+  --ios-blue: #0a84ff;
+  --ios-green: #30d158;
+  --ios-indigo: #5e5ce6;
+  --ios-orange: #ff9f0a;
+  --ios-pink: #ff375f;
+  --ios-purple: #bf5af2;
+  --ios-red: #ff453a;
+  --ios-teal: #64d2ff;
+  --ios-yellow: #ffd60a;
+  --ios-gray: #8e8e93;
+  --shadow-1: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-2: 0 8px 28px rgba(0, 0, 0, 0.55);
+  --shadow-3: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 24px 80px rgba(0, 0, 0, 0.7);
+  --glass-bg: rgba(28, 28, 30, 0.82);
+  --glass-border: rgba(84, 84, 88, 0.36);
+  --scrim: rgba(0, 0, 0, 0.65);
+  --board-bg: #141416;
+  --board-well: #050506;
+  --board-line: rgba(255, 255, 255, 0.06);
+  --board-cap: rgba(255, 255, 255, 0.38);
+}
+
+/* ---------- MIDNIGHT · Deep OLED black ---------- */
+[data-theme="midnight"] {
+  color-scheme: dark;
+  --background: #000000;
+  --surface: #141416;
+  --surface-raised: #222226;
+  --group: #000000;
+  --group-raised: #141416;
+  --label: #ffffff;
+  --label-secondary: #d1d1d6;
+  --label-tertiary: #8e8e93;
+  --separator: rgba(84, 84, 88, 0.32);
+  --separator-opaque: rgba(84, 84, 88, 0.55);
+  --fill: rgba(120, 120, 128, 0.28);
+  --fill-secondary: rgba(120, 120, 128, 0.24);
+  --fill-tertiary: rgba(118, 118, 128, 0.22);
+  --accent: #fbbf24;
+  --accent-strong: #fcd34d;
+  --accent-soft: rgba(251, 191, 36, 0.15);
+  --accent-contrast: #1c1917;
+  --success: #30d158;
+  --warning: #ff9f0a;
+  --danger: #ff453a;
+  --ios-blue: #0a84ff;
+  --ios-green: #30d158;
+  --ios-indigo: #5e5ce6;
+  --ios-orange: #ff9f0a;
+  --ios-pink: #ff375f;
+  --ios-purple: #bf5af2;
+  --ios-red: #ff453a;
+  --ios-teal: #64d2ff;
+  --ios-yellow: #ffd60a;
+  --ios-gray: #8e8e93;
+  --shadow-1: 0 4px 20px rgba(0, 0, 0, 0.5);
+  --shadow-2: 0 8px 28px rgba(0, 0, 0, 0.6);
+  --shadow-3: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 24px 80px rgba(0, 0, 0, 0.75);
+  --glass-bg: rgba(20, 20, 22, 0.84);
+  --glass-border: rgba(84, 84, 88, 0.32);
+  --scrim: rgba(0, 0, 0, 0.75);
+  --board-bg: #0f0f12;
+  --board-well: #000000;
+  --board-line: rgba(255, 255, 255, 0.05);
+  --board-cap: rgba(255, 255, 255, 0.34);
+}
+
+/* ---------- OCEAN · Deep blue dark ---------- */
+[data-theme="ocean"] {
+  color-scheme: dark;
+  --background: #070d18;
+  --surface: #0e182a;
+  --surface-raised: #182844;
+  --group: #070d18;
+  --group-raised: #0e182a;
+  --label: #f0f6fc;
+  --label-secondary: #b5c6dd;
+  --label-tertiary: #7e93ae;
+  --separator: rgba(126, 147, 174, 0.25);
+  --separator-opaque: rgba(126, 147, 174, 0.45);
+  --fill: rgba(126, 147, 174, 0.24);
+  --fill-secondary: rgba(126, 147, 174, 0.2);
+  --fill-tertiary: rgba(126, 147, 174, 0.16);
+  --accent: #fbbf24;
+  --accent-strong: #fcd34d;
+  --accent-soft: rgba(251, 191, 36, 0.16);
+  --accent-contrast: #051322;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #fb7185;
+  --ios-blue: #38bdf8;
+  --ios-green: #34d399;
+  --ios-indigo: #818cf8;
+  --ios-orange: #fb923c;
+  --ios-pink: #f472b6;
+  --ios-purple: #a78bfa;
+  --ios-red: #fb7185;
+  --ios-teal: #2dd4bf;
+  --ios-yellow: #fde047;
+  --ios-gray: #7e93ae;
+  --shadow-1: 0 4px 20px rgba(0, 0, 0, 0.45);
+  --shadow-2: 0 8px 28px rgba(0, 0, 0, 0.55);
+  --shadow-3: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 24px 80px rgba(0, 0, 0, 0.7);
+  --glass-bg: rgba(14, 24, 42, 0.82);
+  --glass-border: rgba(126, 147, 174, 0.25);
+  --scrim: rgba(0, 0, 0, 0.65);
+  --board-bg: #0b1320;
+  --board-well: #04090f;
+  --board-line: rgba(180, 210, 235, 0.08);
+  --board-cap: rgba(180, 210, 235, 0.4);
+}
+
+/* ---------- GRAPE · Deep purple dark ---------- */
+[data-theme="grape"] {
+  color-scheme: dark;
+  --background: #0b0814;
+  --surface: #151024;
+  --surface-raised: #221b38;
+  --group: #0b0814;
+  --group-raised: #151024;
+  --label: #f5f3ff;
+  --label-secondary: #c4b5fd;
+  --label-tertiary: #8b7bb5;
+  --separator: rgba(139, 123, 181, 0.25);
+  --separator-opaque: rgba(139, 123, 181, 0.45);
+  --fill: rgba(139, 123, 181, 0.24);
+  --fill-secondary: rgba(139, 123, 181, 0.2);
+  --fill-tertiary: rgba(139, 123, 181, 0.16);
+  --accent: #fbbf24;
+  --accent-strong: #fcd34d;
+  --accent-soft: rgba(251, 191, 36, 0.16);
+  --accent-contrast: #120b24;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --ios-blue: #60a5fa;
+  --ios-green: #34d399;
+  --ios-indigo: #a78bfa;
+  --ios-orange: #fb923c;
+  --ios-pink: #f472b6;
+  --ios-purple: #c4b5fd;
+  --ios-red: #f87171;
+  --ios-teal: #2dd4bf;
+  --ios-yellow: #fde047;
+  --ios-gray: #8b7bb5;
+  --shadow-1: 0 4px 20px rgba(0, 0, 0, 0.45);
+  --shadow-2: 0 8px 28px rgba(0, 0, 0, 0.55);
+  --shadow-3: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 24px 80px rgba(0, 0, 0, 0.7);
+  --glass-bg: rgba(21, 16, 36, 0.82);
+  --glass-border: rgba(139, 123, 181, 0.25);
+  --scrim: rgba(0, 0, 0, 0.65);
+  --board-bg: #0f0b1c;
+  --board-well: #05030c;
+  --board-line: rgba(215, 195, 255, 0.07);
+  --board-cap: rgba(215, 195, 255, 0.38);
+}
+
+/* ============================================================
+   ACCENTS - the user-configurable accent axis (12 colors)
+   ============================================================ */
+
+[data-accent="gold"] { --accent: #d4a017; --accent-strong: #c08c00; --accent-contrast: #1a1400; }
+[data-accent="blue"] { --accent: #007aff; --accent-strong: #0062cc; --accent-contrast: #ffffff; }
+[data-accent="green"] { --accent: #1f9c4c; --accent-strong: #178a41; --accent-contrast: #ffffff; }
+[data-accent="indigo"] { --accent: #5856d6; --accent-strong: #4644c2; --accent-contrast: #ffffff; }
+[data-accent="orange"] { --accent: #f07716; --accent-strong: #d85e00; --accent-contrast: #ffffff; }
+[data-accent="pink"] { --accent: #e13e72; --accent-strong: #c92a5e; --accent-contrast: #ffffff; }
+[data-accent="purple"] { --accent: #a358d1; --accent-strong: #8d3fc0; --accent-contrast: #ffffff; }
+[data-accent="red"] { --accent: #ef3e30; --accent-strong: #d12b1e; --accent-contrast: #ffffff; }
+[data-accent="teal"] { --accent: #12a5b4; --accent-strong: #0b8b99; --accent-contrast: #ffffff; }
+[data-accent="cyan"] { --accent: #0aa2c9; --accent-strong: #0686a8; --accent-contrast: #ffffff; }
+[data-accent="mint"] { --accent: #16b987; --accent-strong: #0d9c70; --accent-contrast: #09291f; }
+
+[data-accent]:where([data-theme="slate"], [data-theme="midnight"], [data-theme="ocean"], [data-theme="grape"]) {
+  --accent-soft: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+[data-accent]:where([data-theme="paper"], [data-theme="mist"], [data-theme="sepia"], [data-theme="contrast"]) {
+  --accent-soft: color-mix(in srgb, var(--accent) 13%, transparent);
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--background);
+  color: var(--label);
+  font-family: var(--font-sf-sans);
+  font-feature-settings: "ss01" on, "cv01" on;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior-y: none;
+  min-height: 100vh;
+  transition: background-color 400ms ease, color 240ms ease;
+}
+
+::selection {
+  background-color: color-mix(in srgb, var(--accent) 32%, transparent);
+  color: var(--label);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--ring-focused);
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- Machined scrollbar ---------- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--label-tertiary) 55%, transparent) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--fill-secondary);
+  border-radius: 9999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in srgb, var(--label-tertiary) 75%, transparent);
+  background-clip: content-box;
+}
+
+/* ---------- Motion library ---------- */
+
+@keyframes signal-patrol {
+  0% { transform: translateX(-30%) skewX(-12deg); opacity: 0; }
+  12% { opacity: 0.5; }
+  55% { opacity: 0.18; }
+  88% { opacity: 0.5; }
+  100% { transform: translateX(130%) skewX(-12deg); opacity: 0; }
+}
+
+@keyframes led-breathe {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+@keyframes bulb-on {
+  0% { transform: scale(0.86); filter: brightness(2.4) blur(1px); }
+  60% { transform: scale(1.04); filter: brightness(1.35) blur(0); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+@keyframes bulb-wave {
+  0% { transform: scale(0.7); opacity: 0.85; }
+  100% { transform: scale(2.1); opacity: 0; }
+}
+
+@keyframes aura-drift {
+  0%, 100% { transform: translate3d(-2%, -1%, 0) scale(1); }
+  50% { transform: translate3d(2%, 2%, 0) scale(1.06); }
+}
+
+@keyframes scan-drop {
+  0% { transform: translateY(-110%); opacity: 0; }
+  12% { opacity: 0.5; }
+  88% { opacity: 0.5; }
+  100% { transform: translateY(110%); opacity: 0; }
+}
+
+@keyframes pulse-dim {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.75; }
+}
+
+/* ---------- Helper utilities ---------- */
+
+@utility container-ios {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 76rem;
+  padding-inline: 1.25rem;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility glass {
+  background-color: var(--glass-bg);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+}
+
+@utility glow-accent {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 26%, transparent),
+    0 2px 10px color-mix(in srgb, var(--accent) 20%, transparent),
+    0 10px 44px color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+@utility glow-accent-strong {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent),
+    0 3px 14px color-mix(in srgb, var(--accent) 30%, transparent),
+    0 12px 60px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+/* Engraved micro-cap label: uppercase, letterspaced, secondary */
+@utility etched {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--label-tertiary);
+}
+
+/* Fixed-width slot readout (7-seg style counters) */
+@utility slot-readout {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  color: var(--label);
+}
+
+/* Reveal-on-scroll entrance */
+@utility reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+@utility reveal-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ============================================================
+   The Instrument (control-surface board module)
+   ============================================================ */
+
+.instrument {
+  position: relative;
+  border-radius: 24px;
+  background:
+    radial-gradient(120% 90% at 12% 0%, rgba(255, 255, 255, 0.06), transparent 42%),
+    linear-gradient(160deg, color-mix(in srgb, var(--board-bg) 88%, #ffffff 12%), var(--board-bg) 55%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 26px 60px -18px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--board-line);
+}
+
+.instrument::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 17px;
+  border: 1px solid var(--board-line);
+  pointer-events: none;
+}
+
+.instrument-screw {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 32% 30%, #9b9ba3, #4b4b52 55%, #26262b);
+  box-shadow: inset 0 -1px 1px rgba(0, 0, 0, 0.7), 0 1px 1px rgba(255, 255, 255, 0.12);
+  z-index: 2;
+}
+.instrument-screw::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 7px;
+  height: 1.5px;
+  background: rgba(0, 0, 0, 0.75);
+  transform: translate(-50%, -50%) rotate(42deg);
+}
+
+/* Scanning beam that drifts across the panel (pure CSS, idle only) */
+.instrument-beam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 34%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  filter: blur(6px);
+  pointer-events: none;
+  animation: signal-patrol 9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  z-index: 1;
+}
+
+/* LED cells */
+.bulb {
+  position: relative;
+  border-radius: 12px;
+  overflow: visible;
+  isolation: isolate;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.05s ease, box-shadow 0.24s ease;
+}
+.bulb:active {
+  transform: scale(0.93);
+}
+.bulb:focus-visible {
+  box-shadow: var(--ring-focused), 0 0 0 1px var(--board-bg);
+  outline: none;
+}
+.bulb:disabled {
+  cursor: default;
+}
+
+/* The lens cradle */
+.bulb::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 9px;
+  background:
+    radial-gradient(120% 60% at 28% 18%, rgba(255, 255, 255, 0.16), transparent 46%),
+    var(--board-well);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.7), inset 0 -1px 1px rgba(255, 255, 255, 0.05);
+  transition: box-shadow 0.24s ease, background 0.24s ease;
+  z-index: -1;
+}
+
+/* Lit state: wave of accent light floods the lens */
+.bulb[data-on="true"]::before {
+  background:
+    radial-gradient(64% 50% at 32% 26%, #ffffff 0%, color-mix(in srgb, var(--accent) 72%, #ffffff 28%) 18%, var(--accent) 58%, color-mix(in srgb, var(--accent) 78%, #000000 22%) 100%);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent),
+    0 0 13px color-mix(in srgb, var(--accent) 72%, transparent),
+    0 0 30px color-mix(in srgb, var(--accent) 40%, transparent),
+    0 0 58px color-mix(in srgb, var(--accent) 24%, transparent);
+}
+
+.bulb[data-on="true"] {
+  animation: bulb-on 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Signal wave ring emitted on press */
+.bulb-wave {
+  position: absolute;
+  inset: 3px;
+  border-radius: 10px;
+  border: 2px solid color-mix(in srgb, var(--accent) 60%, transparent);
+  pointer-events: none;
+  animation: bulb-wave 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  z-index: 1;
+}
+
+/* Tiny status LEDs next to engraved labels */
+.led {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: var(--accent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+.led.dim {
+  animation: led-breathe 2.4s ease-in-out infinite;
+}
+
+/* Dropped radial aura behind hero (ambient light, not a screen) */
+.aura {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 16%, transparent), transparent 68%);
+  filter: blur(6px);
+  pointer-events: none;
+  animation: aura-drift 14s ease-in-out infinite;
+}
+
+/* Vertically drifting signal line (authored punctuation on the closing plate) */
+.scanline {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  height: 2px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 55%, transparent), transparent);
+  filter: blur(1px);
+  pointer-events: none;
+  animation: scan-drop 7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Hairline blueprint grid behind shallow sections */
+/* impeccable-disable codex-grid-background -- the instrument is a blueprint
+   surface by design; the grid is the drawing board behind the demo board and
+   the site is treated as the machine's own schematic. */
+.blueprint-grid {
+  background-image:
+    linear-gradient(var(--separator) 1px, transparent 1px),
+    linear-gradient(90deg, var(--separator) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 70%);
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 70%);
+}
+
+/* Reduced-motion: kill decorative loops, keep state feedback */
+@media (prefers-reduced-motion: reduce) {
+  .instrument-beam, .aura, .led.dim, .scanline {
+    animation: none !important;
+  }
+  .bulb[data-on="true"] {
+    animation: none !important;
+  }
 }

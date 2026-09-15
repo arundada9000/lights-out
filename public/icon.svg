@@ -1,0 +1,45 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="256" y1="0" x2="256" y2="512" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1C1C1E"/>
+      <stop offset="1" stop-color="#000000"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop stop-color="#FDE68A"/>
+      <stop offset="0.55" stop-color="#FBBF24"/>
+      <stop offset="1" stop-color="#D97706"/>
+    </radialGradient>
+    <filter id="blur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+
+  <!-- grid dims: 3x3 dots, offsets -->
+  <g opacity="0.18" fill="#8E8E93">
+    <circle cx="128" cy="128" r="22"/>
+    <circle cx="256" cy="128" r="22"/>
+    <circle cx="384" cy="128" r="22"/>
+    <circle cx="128" cy="256" r="22"/>
+    <circle cx="384" cy="256" r="22"/>
+    <circle cx="128" cy="384" r="22"/>
+    <circle cx="384" cy="384" r="22"/>
+  </g>
+
+  <!-- lit center cross (as if center cell tapped) -->
+  <circle cx="256" cy="384" r="30" fill="url(#glow)" filter="url(#blur)" opacity="0.7"/>
+  <circle cx="256" cy="384" r="30" fill="url(#glow)"/>
+
+  <circle cx="256" cy="128" r="30" fill="url(#glow)" filter="url(#blur)" opacity="0.7"/>
+  <circle cx="256" cy="128" r="30" fill="url(#glow)"/>
+
+  <circle cx="128" cy="256" r="30" fill="url(#glow)" filter="url(#blur)" opacity="0.7"/>
+  <circle cx="128" cy="256" r="30" fill="url(#glow)"/>
+
+  <circle cx="384" cy="256" r="30" fill="url(#glow)" filter="url(#blur)" opacity="0.7"/>
+  <circle cx="384" cy="256" r="30" fill="url(#glow)"/>
+
+  <circle cx="256" cy="256" r="34" fill="url(#glow)" filter="url(#blur)" opacity="0.9"/>
+  <circle cx="256" cy="256" r="34" fill="url(#glow)"/>
+</svg>
