@@ -34,6 +34,14 @@ export default function GuidesIndexPage() {
     })),
   };
 
+  const categoryStart = guideCategories.reduce<Record<string, number>>((acc, category) => {
+    const soFar = guideCategories
+      .slice(0, guideCategories.indexOf(category))
+      .reduce((sum, cat) => sum + guides.filter((g) => g.category === cat).length, 0);
+    acc[category] = soFar;
+    return acc;
+  }, {});
+
   return (
     <>
       <script
@@ -63,53 +71,72 @@ export default function GuidesIndexPage() {
       </div>
 
       <Container className="py-12 sm:py-16">
-        <div className="flex flex-col gap-14">
+        <div className="flex flex-col gap-10">
           {guideCategories.map((category, ci) => {
             const guidesInCategory = guides.filter((g) => g.category === category);
             if (guidesInCategory.length === 0) return null;
             const Icon = categoryIcons[category] ?? BookOpen;
+            const startIndex = categoryStart[category] ?? 0;
+            const inCategoryIndex = (idx: number) => startIndex + idx;
+
             return (
               <Reveal key={category} delay={ci * 60}>
-                <div className="mb-6 flex items-center justify-between border-b border-separator pb-4">
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-[11px] border border-separator bg-surface-raised text-accent shadow-card">
-                      <Icon className="h-5 w-5" strokeWidth={2} aria-hidden />
-                    </span>
-                    <div className="flex flex-col">
-                      <h2 className="etched text-[12px] text-label">{category}</h2>
-                      <span className="mt-1 text-[11px] text-label-tertiary capitalize">
+                <div className="overflow-hidden rounded-ios-2xl border border-separator/70 bg-surface-raised shadow-card">
+                  {/* Category header */}
+                  <div className="flex items-center justify-between border-b border-separator bg-fill/40 px-5 py-3.5 sm:px-6">
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-9 w-9 items-center justify-center rounded-[10px] border border-separator bg-surface-raised text-accent shadow-card">
+                        <Icon className="h-4.5 w-4.5" strokeWidth={2} aria-hidden />
+                      </span>
+                      <h2 className="text-[15px] font-semibold tracking-tight text-label">
+                        {category}
+                      </h2>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Badge tone="neutral">
+                        {guidesInCategory.length} {guidesInCategory.length === 1 ? "entry" : "entries"}
+                      </Badge>
+                      <span className="slot-readout hidden text-[10px] text-label-tertiary sm:block">
                         Rack {String(ci + 1).padStart(2, "0")}
                       </span>
                     </div>
                   </div>
-                  <Badge tone="neutral">{guidesInCategory.length} entries</Badge>
-                </div>
 
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {guidesInCategory.map((guide) => (
-                    <Link
-                      key={guide.slug}
-                      href={`/guides/${guide.slug}`}
-                      className="group relative flex flex-col gap-2 overflow-hidden rounded-[18px] border border-separator/70 bg-surface-raised p-6 shadow-card transition-all duration-200 ease-ios hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-raised focus-visible:ring-focused"
-                    >
-                      <span aria-hidden className="led absolute right-6 top-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                      <div className="flex items-start justify-between gap-4">
-                        <h3 className="text-[15px] font-semibold tracking-tight text-label transition-colors duration-200 ease-ios group-hover:text-accent">
-                          {guide.title}
-                        </h3>
-                        <ChevronRight className="mt-0.5 h-4 w-4 flex-shrink-0 text-label-tertiary transition-transform duration-200 ease-ios group-hover:translate-x-0.5" aria-hidden />
-                      </div>
-                      <p className="line-clamp-2 text-sm leading-relaxed text-label-secondary">
-                        {guide.description}
-                      </p>
-                      <div className="mt-1 flex items-center gap-2">
-                        <Badge tone="neutral">{guide.category}</Badge>
-                        <span className="etched text-[9px]">
-                          {guide.readingTime} &middot; {guide.updated}
-                        </span>
-                      </div>
-                    </Link>
-                  ))}
+                  {/* Entry rows */}
+                  <ul className="flex flex-col">
+                    {guidesInCategory.map((guide, gi) => (
+                      <li key={guide.slug}>
+                        <Link
+                          href={`/guides/${guide.slug}`}
+                          className="group grid items-center gap-x-4 gap-y-1 border-b border-separator/60 px-5 py-4 transition-colors duration-200 ease-ios hover:bg-fill focus-visible:ring-focused sm:grid-cols-[2.5rem_minmax(0,1fr)_auto] sm:px-6 last:border-0"
+                        >
+                          <span
+                            aria-hidden
+                            className="slot-readout hidden text-sm font-bold text-label-tertiary transition-colors duration-200 group-hover:text-accent sm:block"
+                          >
+                            {String(inCategoryIndex(gi) + 1).padStart(2, "0")}
+                          </span>
+                          <span className="flex min-w-0 flex-col gap-1">
+                            <span className="truncate text-[15px] font-semibold tracking-tight text-label transition-colors duration-200 group-hover:text-accent">
+                              {guide.title}
+                            </span>
+                            <span className="line-clamp-1 text-sm text-label-secondary">
+                              {guide.description}
+                            </span>
+                          </span>
+                          <span className="col-start-2 flex items-center justify-between gap-3 sm:col-start-3">
+                            <span className="etched hidden text-[9px] md:block">
+                              {guide.readingTime}
+                            </span>
+                            <ChevronRight
+                              className="h-4 w-4 flex-shrink-0 text-label-tertiary transition-all duration-200 ease-ios group-hover:translate-x-0.5 group-hover:text-accent"
+                              aria-hidden
+                            />
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </Reveal>
             );

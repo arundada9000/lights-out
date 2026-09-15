@@ -187,6 +187,7 @@ export function GuideContent({ blocks }: { blocks: ContentBlock[] }) {
             return (
               <h2
                 key={index}
+                id={`guide-${index}`}
                 className="mb-3 mt-10 flex scroll-mt-24 items-center gap-3 text-2xl font-semibold tracking-tight text-label first:mt-0"
               >
                 <span aria-hidden className="h-5 w-1 rounded-full bg-accent" />
@@ -197,6 +198,7 @@ export function GuideContent({ blocks }: { blocks: ContentBlock[] }) {
             return (
               <h3
                 key={index}
+                id={`guide-${index}`}
                 className="mb-2 mt-8 scroll-mt-24 text-lg font-semibold tracking-tight text-label"
               >
                 {block.text}

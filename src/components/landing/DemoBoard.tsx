@@ -7,6 +7,15 @@ const SIZE = 5;
 
 type Board = number[][];
 
+/** Fixed starting layout so SSR and hydration agree; New Game re-randomizes. */
+const INITIAL_BOARD: Board = [
+  [0, 1, 0, 0, 1],
+  [1, 0, 1, 1, 0],
+  [0, 0, 1, 0, 0],
+  [1, 1, 0, 1, 1],
+  [0, 0, 1, 0, 0],
+];
+
 interface Wave {
   id: number;
   r: number;
@@ -73,7 +82,7 @@ function padSlots(n: number): [string, string, string] {
 }
 
 export function DemoBoard() {
-  const [board, setBoard] = useState<Board>(() => generateSolvableBoard().initial);
+  const [board, setBoard] = useState<Board>(() => INITIAL_BOARD.map((row) => [...row]));
   const [moves, setMoves] = useState(0);
   const [won, setWon] = useState(false);
   const [waves, setWaves] = useState<Wave[]>([]);

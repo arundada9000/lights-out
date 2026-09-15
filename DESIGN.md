@@ -61,9 +61,13 @@ computed from the accent theme block.
 
 - `Progress`/`Badge`/`Button`/`Card`/`Container`/`SectionHeading` — token-only UI kit.
 - `DemoBoard` — the hero instrument: real solvable 5x5 board, Manhattan-distance
-  ripple waves, fixed-slot moves readout, POWER reset.
+  ripple waves, fixed-slot moves readout, POWER reset. Deterministic starting
+  layout so SSR and hydration agree.
 - `SurfaceRack` — live theme/accent demo; taps re-tune the whole page.
 - `Reveal`/`Magnetic` — motion primitives.
+- `ReadingProgress` — fixed hairline scroll-progress bar on guide pages.
+- Guides: catalog list (numbered slot rows per rack), outline rail on xl, ascending
+  "continue" plate for prev/next.
 - `ThemeScript` (inline, pre-paint) + `ThemeSwitcher` (popover) + `SurfaceRack` share
   the same `applyThemeToDom` runtime; `data-theme`/`data-accent` on `<html>`.
 

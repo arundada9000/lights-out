@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Check, ChevronDown, Monitor } from "lucide-react";
 import {
   ACCENT_STORAGE_KEY,
@@ -16,7 +16,11 @@ import {
 } from "./theme";
 import { cn } from "@/lib/cn";
 
-function SwatchQuad({ colors, dark }: { colors: [...string[]]; dark?: boolean }) {
+function emptySubscribe() {
+  return () => undefined;
+}
+
+function SwatchQuad({ colors, dark }: { colors: readonly string[]; dark?: boolean }) {
   return (
     <span
       aria-hidden
@@ -25,8 +29,8 @@ function SwatchQuad({ colors, dark }: { colors: [...string[]]; dark?: boolean })
         dark && "ring-white/15"
       )}
     >
-      {colors.map((c) => (
-        <span key={c} className="h-full w-full" style={{ backgroundColor: c }} />
+      {colors.map((c, i) => (
+        <span key={i} className="h-full w-full" style={{ backgroundColor: c }} />
       ))}
     </span>
   );
@@ -45,6 +49,8 @@ export function ThemeSwitcher() {
     )
   );
   const popRef = useRef<HTMLDivElement>(null);
+
+  const isClient = useSyncExternalStore(emptySubscribe, () => true, () => false);
 
   const commit = useCallback((pref: ThemePreference, acc: AccentName) => {
     if (typeof window === "undefined") return;
@@ -97,12 +103,21 @@ export function ThemeSwitcher() {
         className="flex h-9 cursor-pointer items-center gap-2 rounded-ios-md border border-separator bg-surface-raised px-2.5 transition-all duration-200 ease-ios hover:bg-fill active:scale-95 focus-visible:ring-focused"
         title="Surface & accent"
       >
-        {activeThemeMeta ? (
+        {isClient && activeThemeMeta ? (
           <SwatchQuad colors={activeThemeMeta.sample} dark={activeThemeMeta.dark} />
-        ) : null}
+        ) : (
+          <span
+            aria-hidden
+            className="grid h-7 w-7 flex-shrink-0 grid-cols-2 overflow-hidden rounded-[7px] ring-1 ring-inset ring-black/10"
+          />
+        )}
         <span
           className="h-2 w-2 rounded-full ring-1 ring-inset ring-black/10"
-          style={{ backgroundColor: ACCENTS.find((a) => a.name === accent)?.color }}
+          style={{
+            backgroundColor: isClient
+              ? ACCENTS.find((a) => a.name === accent)?.color
+              : "#fbbf24",
+          }}
         />
         <ChevronDown
           className={cn("h-3.5 w-3.5 text-label-tertiary transition-transform duration-200", open && "rotate-180")}

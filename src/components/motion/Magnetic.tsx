@@ -55,8 +55,10 @@ export function Magnetic({ children, strength = 10, className }: MagneticProps) 
       onPointerLeave={onLeave}
       onPointerDown={onDown}
       style={{
-        transition: "transform 0.34s cubic-bezier(0.16, 1, 0.3, 1)",
-        willChange: active ? "transform" : undefined,
+        transitionProperty: "transform",
+        transitionDuration: "0.34s",
+        transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+        willChange: "transform",
       }}
     >
       {children}
