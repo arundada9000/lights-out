@@ -1,0 +1,47 @@
+name: Feature request
+description: Suggest an idea for Easy Lights Out. Check the guide pages and README first.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ideas are welcome. Be specific about the problem you are solving and
+        who it helps, rather than only the widget you want added.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is the problem you are trying to solve?
+      description: A concrete moment where the current app did not do what you needed.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Describe the feature or behaviour. Mock screenshots welcome.
+    validations:
+      required: true
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Where does it fit?
+      options:
+        - New mode or preset (engine)
+        - New guide page
+        - New theme / accent
+        - UI / interaction polish
+        - Performance or offline behaviour
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: outofscope
+    attributes:
+      label: What should stay out of scope?
+      description: Boundary so reviewers can keep the PR small.
+  - type: markdown
+    attributes:
+      value: |
+        Before opening a PR for this, please confirm the design direction with a
+        quick comment thread on the issue. The project follows an explicit design
+        contract (`DESIGN.md` / `PRODUCT.md`).

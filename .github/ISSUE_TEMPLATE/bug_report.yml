@@ -1,0 +1,66 @@
+name: Bug report
+description: Report a problem with the app. Do not paste secret data or API keys.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to make the game better. A good report includes
+        a clear title, steps we can reproduce, and the expected versus actual
+        result.
+  - type: input
+    id: url
+    attributes:
+      label: Where did it happen? (page URL)
+      description: e.g. `/play`, `/guides`, `/`
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Device / form factor
+      options:
+        - Desktop browser
+        - Mobile browser
+        - Installed PWA (mobile)
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: e.g. Chrome 131 / Safari 18
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Numbered, minimal steps. What did you press or tap?
+      placeholder: |
+        1. Open /play
+        2. Switch to Mode > Minimum Moves > 6x6
+        3. Press cell (3,4)
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+      description: Include console errors if any.
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else?
+      description: Theme/accent in use, "reduced motion" setting, a screenshot from `scripts/shots.mjs`, etc.
